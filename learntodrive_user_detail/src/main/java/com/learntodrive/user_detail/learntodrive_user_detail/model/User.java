@@ -7,17 +7,17 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Document(collection = "users")  // MongoDB Collection Name
+@Document(collection = "user_details")  // MongoDB Collection Name
 public class User {
     @Id
-    @Indexed(unique = true)
     private String id;
-    private String name;
-    @Indexed(unique = true)
-    private String email;
-    private String password;
-    private String role = "USER";
+    private String email;   // Used to connect with Auth Service
+    private String dob;
+    private String aadharNo;
+    private String licenceNo;
 }

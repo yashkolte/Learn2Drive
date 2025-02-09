@@ -7,7 +7,7 @@ spring:
   data:
     mongodb:
       uri: "mongodb+srv://yashkoltedev:yashkolte@mycluster.igtqr.mongodb.net/?retryWrites=true&w=majority&appName=MyCluster"
-      database: drivingschool_user_detail
+      database: learntodrive
 
 eureka:
   client:

@@ -14,9 +14,16 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/register")
-    public Map<String, String> register(@RequestBody User user) {
+    @PostMapping("/user/register")
+    public Map<String, String> userregister(@RequestBody User user) {
         user.setRoles(Collections.singleton(Role.USER)); // Default role as USER
+        String message = authService.register(user);
+        return Collections.singletonMap("message", message);
+    }
+
+    @PostMapping("/driver/register")
+    public Map<String, String> driverregister(@RequestBody User user) {
+        user.setRoles(Collections.singleton(Role.DRIVER)); // Default role as USER
         String message = authService.register(user);
         return Collections.singletonMap("message", message);
     }

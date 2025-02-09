@@ -21,7 +21,7 @@ public class AuthService {
     public String register(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return "User registered successfully!";
+        return "Registered successfully!";
     }
 
     public String login(String email, String password) {
