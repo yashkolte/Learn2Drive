@@ -1,0 +1,21 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: learntodrive_user_detail
+  data:
+    mongodb:
+      uri: mongodb+srv://yashkoltedev:yashkoltedev@mycluster.igtqr.mongodb.net/?retryWrites=true&w=majority&appName=MyCluster
+      database: drivingschool_user_detail
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+  instance:
+    prefer-ip-address: true
+
