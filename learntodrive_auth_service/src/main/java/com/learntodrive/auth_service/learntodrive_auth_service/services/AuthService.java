@@ -42,26 +42,40 @@ public class AuthService {
         return "Invalid credentials!";
     }
 
+    public boolean validateToken(String token) {
+        return jwtUtil.validateToken(token);
+    }
+
     public String sendUserDetailsToService(String jwtToken, String dob, String aadharNo, String licenceNo) {
-        String userDetailsServiceUrl = "http://localhost:8082/user-details/save"; // Ensure correct port
+        // Clean the token - remove any potential spaces
+        String token = jwtToken;
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7).trim();  // Remove "Bearer " and any trailing spaces
+        }
+
+        String userDetailsServiceUrl = "http://localhost:8082/user-details/save";
 
         Map<String, String> userDetails = new HashMap<>();
         userDetails.put("dob", dob);
         userDetails.put("aadharNo", aadharNo);
         userDetails.put("licenceNo", licenceNo);
 
-        // ✅ Properly include JWT in request headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(jwtToken); // ✅ Proper way to set JWT Token
+        headers.setBearerAuth(token);  // This will add "Bearer " prefix properly
 
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(userDetails, headers);
 
-        // ✅ Handle response properly
         try {
-            ResponseEntity<String> response = restTemplate.exchange(userDetailsServiceUrl, HttpMethod.POST, requestEntity, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(
+                    userDetailsServiceUrl,
+                    HttpMethod.POST,
+                    requestEntity,
+                    String.class
+            );
             return response.getBody();
         } catch (Exception e) {
+            System.out.println("Error sending request: " + e.getMessage());
             return "Failed to send user details: " + e.getMessage();
         }
     }

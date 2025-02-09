@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserDetailsController {
 
     private final UserDetailsRepository userDetailsRepository;
-    private final JwtUtil jwtUtil; // ✅ Ensure it's properly injected
 
     @Autowired
-    public UserDetailsController(UserDetailsRepository userDetailsRepository, JwtUtil jwtUtil) {
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    public UserDetailsController(UserDetailsRepository userDetailsRepository) {
         this.userDetailsRepository = userDetailsRepository;
-        this.jwtUtil = jwtUtil; // ✅ Properly initialize the JwtUtil object
     }
 
     @PostMapping("/save")
@@ -29,15 +30,24 @@ public class UserDetailsController {
             return ResponseEntity.status(403).body("Missing or invalid Authorization header!");
         }
 
-        String token = authHeader.substring(7);
+        // Clean the token by removing "Bearer " and trimming any spaces
+        String token = authHeader.substring(7).trim();
+
+        // Add debug logging
+        System.out.println("Processing token: " + token.substring(0, Math.min(10, token.length())) + "...");
+
         if (!jwtUtil.validateToken(token)) {
             return ResponseEntity.status(403).body("Invalid Token!");
         }
 
-        String email = jwtUtil.extractEmail(token);
-        userDetails.setUserEmail(email);
-
-        userDetailsRepository.save(userDetails);
-        return ResponseEntity.ok("User details saved successfully!");
+        try {
+            String email = jwtUtil.extractEmail(token);
+            userDetails.setUserEmail(email);
+            userDetailsRepository.save(userDetails);
+            return ResponseEntity.ok("User details saved successfully!");
+        } catch (Exception e) {
+            System.out.println("Error processing token: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error processing token: " + e.getMessage());
+        }
     }
 }

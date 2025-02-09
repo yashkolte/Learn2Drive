@@ -6,6 +6,7 @@ import com.learntodrive.auth_service.learntodrive_auth_service.services.AuthServ
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Collections;
 import java.util.Map;
 
@@ -39,6 +40,10 @@ public class AuthController {
     @PostMapping("/submit-details")
     public ResponseEntity<?> submitUserDetails(@RequestHeader("Authorization") String token,
                                                @RequestBody Map<String, String> userDetails) {
+        if (!authService.validateToken(token)) {
+            return ResponseEntity.status(403).body("Invalid Token!");
+        }
+
         String response = authService.sendUserDetailsToService(token,
                 userDetails.get("dob"),
                 userDetails.get("aadharNo"),
