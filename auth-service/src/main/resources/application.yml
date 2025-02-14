@@ -1,0 +1,24 @@
+server:
+  port: 8081  # Auth Service runs on port 8081
+
+spring:
+  application:
+    name: AUTH_SERVICE
+  data:
+    mongodb:
+      uri: "mongodb+srv://amansahudev:amansahu@mychatcluster.n9ntr.mongodb.net/?retryWrites=true&w=majority&appName=myChatCluster"
+      database: learntodrive
+
+okta:
+  oauth2:
+    issuer: "https://aman-sahu.us.auth0.com/"
+    audience: "api://default"
+    client-id: "D7lm7I21jITtRvlJyHyWjfd3cIQJYV1s"
+    client-secret: "ll34KsVQFvN_W-cvGqlAA2wpm3WqFhyJXp8lwUYzlNqXq5gkY_-e3ozBK2vJbLbd"
+
+jwt:
+  secret: "MySuperSecretKeyForJwtTokenThatIsBase64Encoded"
+
+logging:
+  level:
+    org.springframework.security: DEBUG
