@@ -6,7 +6,7 @@ spring:
     name: learntodrive_user_detail
   data:
     mongodb:
-      uri: "mongodb+srv://yashkoltedev:yashkolte@mycluster.igtqr.mongodb.net/?retryWrites=true&w=majority&appName=MyCluster"
+      uri: "mongodb+srv://amansahudev:amansahu@mychatcluster.n9ntr.mongodb.net/?retryWrites=true&w=majority&appName=myChatCluster"
       database: drivingschool_user_detail
 
 eureka:
