@@ -22,3 +22,6 @@ jwt:
 logging:
   level:
     org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    com.learn_to_drive_auth_service: DEBUG
+    root: INFO

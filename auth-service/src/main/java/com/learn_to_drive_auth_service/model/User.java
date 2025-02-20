@@ -2,60 +2,69 @@ package com.learn_to_drive_auth_service.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Set;
 
-import lombok.Getter;
-import lombok.Setter;
-import java.util.Collection;
-
-@Setter
-@Getter
-@Document(collection = "users") // Specify the MongoDB collection
-public class User implements UserDetails {
+@Document(collection = "users") // This maps to the MongoDB collection named "users"
+public class User {
 
     @Id
-    private String id; // Unique identifier for MongoDB
+    private String id; // MongoDB uses String IDs instead of Long/Integer
+
     private String username;
     private String email;
-    private String role;
     private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private Set<Role> roles; // Set of roles (USER, ADMIN, etc.)
 
-    // Add other fields as needed (e.g., email, roles, etc.)
+    // Default constructor
+    public User() {
+    }
 
-    public User(String username, String password, Collection<? extends GrantedAuthority> authorities,String role,String email) {
+    // Constructor with fields
+    public User(String username, String email, String password, Set<Role> roles) {
         this.username = username;
-        this.password = password;
         this.email = email;
-        this.role = role;
-        this.authorities = authorities;
+        this.password = password;
+        this.roles = roles;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+    // Getters and Setters
+    public String getId() {
+        return id;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true; // Implement your logic if needed
+    public void setId(String id) {
+        this.id = id;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true; // Implement your logic if needed
+    public String getUsername() {
+        return username;
     }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true; // Implement your logic if needed
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return true; // Implement your logic if needed
+    public String getEmail() {
+        return email;
     }
 
-    // Add getters and setters for other fields
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }
